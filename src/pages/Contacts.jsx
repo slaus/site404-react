@@ -9,11 +9,15 @@ import {
     TiDevicePhone
 } from 'react-icons/ti';
 import {ContactForm} from "../components";
+import { useLanguage } from '../context/LanguageContext';
+import { contacts } from '../lang/languages';
 
 const Contacts = () => {
-    const telVodafon = "+380 (95) 166-7070";
-    const telLife = "+380 (93) 004-3739";
-    const address = "Одеська область, Україна";
+    const { language, switchLanguage } = useLanguage();
+
+    const telVodafon = contacts[language].vodafon;
+    const telLife = contacts[language].life;
+    const address = contacts[language].address;
     const emailAddress = "MisterDDOTSlausGAVgmailDDOTcom";
     const clickOnEmail = (e) => {
         return e.target.href = e.target.href.replace(/GAV/,'@').replace(/DDOT/,'.').toLowerCase();
@@ -21,34 +25,34 @@ const Contacts = () => {
 
     const menuItems = [
         {
-            "link": "https://facebook.com/",
+            "link": contacts[language].facebook,
             "title": "Facebook",
             "icon": TiSocialFacebook
         },
         {
-            "link": "https://twitter.com/",
+            "link": contacts[language].twitter,
             "title": "Twitter",
             "icon": TiSocialTwitter
         },
         {
-            "link": "https://github.com/slaus",
+            "link": contacts[language].github,
             "title": "Github",
             "icon": TiSocialGithub
         },
     ];
 
     useEffect(() => {
-        document.title = "Сторінка контактів";
-    }, []);
+        document.title = contacts[language].title;
+    }, [language]);
 
     return (
         <section id="contact" className="text-white my-auto">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
-                    <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:gap-0">
+                    <div className="flex flex-col items-start justify-between gap-8 md:flex-row lg:gap-5">
                         <div className="reveal-effect">
-                            <h1 className="heading reveal-effect">Давайте зв'яжемось!</h1>
-                            <p className="paragraph my-4 lg:my-8 reveal-effect lg:w-[400px]">Завжди доступний для фрілансу, якщо з’являється потрібний проект. Не соромтеся зв’язуватися зі мною через WhatsApp, Telegram або Viber.</p>
+                            <h1 className="heading reveal-effect">{contacts[language].heading}</h1>
+                            <p className="paragraph my-4 lg:my-8 reveal-effect lg:w-[400px]">{contacts[language].intro}</p>
                             <div className="flex flex-col gap-3 text-sm lg:text-base reveal-effect">
                                 <a href={`tel:${telVodafon}`} className="flex items-center gap-3 text-paragraph hover:text-heading hover:underline">
                                     <TiDevicePhone className="h-6 w-6 text-paragraph" size={26}/>
@@ -74,10 +78,8 @@ const Contacts = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className="bg-main w-full rounded p-7 lg:w-[55%] reveal-effect relative">
-                            <p className="paragraph mb-4 !text-sm italic lg:mb-8">
-                                *Зв’яжіться зі мною та заповніть контактну форму нижче.
-                            </p>
+                        <div className="bg-main w-full rounded p-4 sm:p-6 lg:w-[55%] reveal-effect relative">
+                            <p className="paragraph mb-4 !text-sm italic lg:mb-8">{contacts[language].feedback}</p>
                             <ContactForm/>
                         </div>
                     </div>

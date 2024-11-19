@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useLanguage } from '../context/LanguageContext';
+import { clients } from '../lang/languages';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import axios from "axios";
 
 const Clients = () => {
+    const { language, switchLanguage } = useLanguage();
     const [clientItems, setClientItems] = useState([]);
 
     useEffect(() => {
@@ -27,21 +30,25 @@ const Clients = () => {
             <div className="container">
                 <div
                     className="flex h-20 flex-col items-start justify-between gap-32 lg:h-28 lg:flex-row lg:items-center">
-                    <h1 className="heading hidden whitespace-nowrap lg:block">Клієнти</h1>
+                    <h1 className="heading hidden whitespace-nowrap lg:block">{clients[language].title}</h1>
                     <Swiper
                         slidesPerView={1}
                         spaceBetween={0}
                         breakpoints={{
-                            640: {
+                            576: {
                                 slidesPerView: 2,
                                 spaceBetween: 20,
                             },
-                            768: {
+                            640: {
                                 slidesPerView: 3,
+                                spaceBetween: 20,
+                            },
+                            768: {
+                                slidesPerView: 4,
                                 spaceBetween: 40,
                             },
                             1024: {
-                                slidesPerView: 4,
+                                slidesPerView: 5,
                                 spaceBetween: 50,
                             },
                         }}

@@ -7,8 +7,12 @@ import {
 
 import { BlogItem, PaginationNav } from "../components";
 import axios from "axios";
+import { useLanguage } from '../context/LanguageContext';
+import { blog } from '../lang/languages';
 
 const Blog = ({ setParams }) => {
+    const { language, switchLanguage } = useLanguage();
+
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -23,28 +27,28 @@ const Blog = ({ setParams }) => {
             await axios.get(`/db/blog.json`)
                 .then((res) => {
                     // console.log(res.data);
-                    setBlogItems(res.data);
+                    setBlogItems(res?.data[language]);
                 });
         }
 
         getBlogItems();
-    }, []);
+    }, [language]);
 
     const totalItems = blogItems.length;
     console.log(totalItems)
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentItems = blogItems.slice(startIndex, endIndex);
+    const currentItems = blogItems.slice().reverse().slice(startIndex, endIndex);
 
     useEffect(() => {
-        document.title = "Сторінка блогу";
+        document.title = blog[language].title;
     }, []);
 
     return (
         <section id="blog" className="my-auto">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
-                    <h1 className="heading text-center lg:text-left reveal-effect">Мій блог</h1>
+                    <h1 className="heading text-center lg:text-left reveal-effect">{blog[language].heading}</h1>
                     <div className="flex flex-col gap-3 lg:gap-6">
                         {totalItems > itemsPerPage &&
                             <div className="flex flex-col justify-start">
@@ -59,7 +63,7 @@ const Blog = ({ setParams }) => {
                         }
                         <div className="flex flex-col gap-3 lg:gap-6">
                             {currentItems && Array.isArray(currentItems) &&
-                                currentItems?.slice().reverse().map(({ ...props }) => (
+                                currentItems?.map(({ ...props }) => (
                                     <BlogItem key={props.id} even={!!!(props.id % 2)} setParams={setParams} {...props} />
                                 ))
                             }

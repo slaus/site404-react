@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import { GalleryItem, PaginationNav, Testimonial } from "../components";
 import axios from "axios";
+import { useLanguage } from '../context/LanguageContext';
+import { gallery } from '../lang/languages';
 
 const Gallery = ({ setParams }) => {
+    const { language, switchLanguage } = useLanguage();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -18,28 +21,28 @@ const Gallery = ({ setParams }) => {
             await axios.get(`/db/gallery.json`)
                 .then((res) => {
                     // console.log(res.data);
-                    setGalleryItems(res.data);
+                    setGalleryItems(res?.data[language]);
                 });
         }
 
         getGalleryItems();
-    }, []);
+    }, [language]);
 
     const totalItems = galleryItems.length;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentItems = galleryItems.slice(startIndex, endIndex);
+    const currentItems = galleryItems.slice().reverse().slice(startIndex, endIndex);
 
     useEffect(() => {
-        document.title = "Сторінка галереї";
-    }, []);
+        document.title = gallery[language].title;
+    }, [language]);
 
     return (
         <>
             <section id="projects" className="my-auto">
                 <div className="container">
                     <div className="flex flex-col justify-start gap-8">
-                        <h1 className="heading text-center lg:text-left reveal-effect">Мої роботи</h1>
+                        <h1 className="heading text-center lg:text-left reveal-effect">{gallery[language].heading}</h1>
                         {totalItems > itemsPerPage &&
                             <div className="flex flex-col justify-start">
                                 <PaginationNav

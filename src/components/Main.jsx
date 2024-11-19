@@ -8,6 +8,7 @@ import Blog from "../pages/Blog";
 import Contacts from "../pages/Contacts";
 import Resume from "../pages/Calc";
 import Page from "../pages/Page";
+import NotFound from '../pages/NotFound';
 
 const Main = () => {
 
@@ -28,6 +29,7 @@ const Main = () => {
             <Route path="/blog" element={<ElementWithClass className="blog"><Blog setParams={setParams} /></ElementWithClass>} />
             <Route path="/blog/:id" element={<ElementWithClass className="blog"><Page params={params} /></ElementWithClass>} />
             <Route path="/contacts" element={<ElementWithClass className="contacts"><Contacts /></ElementWithClass>} />
+            <Route path="*" element={<ElementWithClass className="not-found"><NotFound /></ElementWithClass>} />
         </Routes >
     );
 };

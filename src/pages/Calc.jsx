@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaQuestion } from "react-icons/fa";
 import axios from "axios";
+import { useLanguage } from '../context/LanguageContext';
+import { calc } from '../lang/languages';
 
 const Calc = () => {
+    const { language, switchLanguage } = useLanguage();
+
     const [activeItem, setActiveItem] = useState(null);
     const [summ, setSumm] = useState(0);
     const [info, setInfo] = useState(null);
@@ -15,12 +19,12 @@ const Calc = () => {
             await axios.get(`/db/calc.json`)
                 .then((res) => {
                     // console.log(res.data);
-                    setCalcItems(res.data);
+                    setCalcItems(res?.data[language]);
                 });
         }
 
         getCalcItems();
-    }, []);
+    }, [language]);
 
     const selectTypeProject = (id, price, info, other) => {
         setActiveItem(id === activeItem ? null : id);
@@ -62,23 +66,23 @@ const Calc = () => {
         }
     }, [activeItem]);
     
-    const usd = 38;
+    const usd = 41;
 
     useEffect(() => {
-        document.title = "Сторінка онлайн калькулятору";
-    }, []);
+        document.title = calc[language].title;
+    }, [language]);
 
     return (
         <section id="calc" className="text-center lg:text-left my-auto py-8">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
-                    <h1 className="heading reveal-effect">Онлайн калькулятор сайту</h1>
+                    <h1 className="heading reveal-effect">{calc[language].heading}</h1>
                     <div className="grid gap-3 lg:gap-6 calc-block">
-                        <div className='paragraph reveal-effect py-2'>Розрахувати приблизну вартість інтернет-послуг для створення сайту, порталу, інтернет-магазину чи програми допоможе онлайн-калькулятор сайту. Це досить умовний поділ сайтів за типами. Щоб визначити, який тип проекту вам потрібен, чітко визначте свої цілі та завдання, визначте свій майбутній проект і на яку аудиторію він розрахований. Ніколи не сподівайтеся, що сайт сподобається абсолютно всім, оскільки він розроблений для певних груп відвідувачів. Щоб отримати приблизну вартість, виберіть потрібні позиції. Якщо вам незрозумілі необхідні параметри, наведіть курсор миші на символ довідки та отримайте пораду. Після завершення розрахунку ви отримаєте електронний лист із детальною копією розрахунку. Приблизний бюджет розвитку може бути скоригований, якщо буде додана додаткова інформація.</div>
+                        <div className='paragraph reveal-effect py-2'>{calc[language].intro}</div>
                         <div className='grid grid-cols-1 md:grid-cols-2 calc-menu gap-3 lg:gap-6'>
                             <div className='mb-6'>
                                 <div className='mb-6'>
-                                    <h3 className='heading mb-3 !text-2xl reveal-effect'>Який вам проект потрібен</h3>
+                                    <h3 className='heading mb-3 !text-2xl reveal-effect'>{calc[language].type}</h3>
                                     {calcItems && Array.isArray(calcItems) &&
                                     calcItems?.map(item => (
                                         <div
@@ -96,7 +100,7 @@ const Calc = () => {
                                 }
                             </div>
                             <div>
-                                <h3 className='heading mb-3 !text-2xl reveal-effect'>Будь ласка, виберіть необхідні додаткові параметри</h3>
+                                <h3 className='heading mb-3 !text-2xl reveal-effect'>{calc[language].params}</h3>
                                 <div className="mt-4 calc-params">
                                     {other && 
                                         other?.map((item, index) => (
@@ -110,12 +114,12 @@ const Calc = () => {
                                                     onChange={() => selectOtherParams(item)}
                                                     disabled={item.selected ? "disabled" : ''}
                                                 />
-                                                <label className='paragraph pointer other-label' htmlFor={item.id}>{item.add} <span className='badge'>+{item.price * usd}</span></label>
+                                                <label className='paragraph pointer other-label' htmlFor={item.id}>{item.add} <span className='badge'>+{language === 'uk' ? item.price * usd : item.price}</span></label>
                                             </div>
                                         ))
                                     }
                                 </div>
-                                <div className="calc-summ mt-6 heading">Приблизний бюджет від: <span className='ml-auto'>{summ * usd}</span> грн.</div>
+                                <div className="calc-summ mt-6 heading">{calc[language].budget}: <span className='ml-auto'>{language === 'uk' ? summ * usd : summ}</span> {language === 'uk' ? 'грн.' : 'USD'}</div>
                             </div>
                         </div>
                     </div>

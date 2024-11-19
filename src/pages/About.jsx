@@ -3,11 +3,15 @@ import about from '../img/about/about.webp';
 import { TiArrowRight } from "react-icons/ti";
 import { Skills, Wrapper } from "../components";
 import { Link } from "react-router-dom";
+import { useLanguage } from '../context/LanguageContext';
+import { aboutMe } from '../lang/languages';
 
 const About = () => {
+    const { language, switchLanguage } = useLanguage();
+
     useEffect(() => {
-        document.title = "Сторінка про мене";
-    }, []);
+        document.title = aboutMe[language].title;
+    }, [language]);
 
     return (
         <>
@@ -16,14 +20,12 @@ const About = () => {
                     <div className="flex flex-col items-center justify-start gap-5 lg:flex-row xl:gap-20">
 
                         <div className="reveal-effect">
-                            <h1 className="heading reveal-effect">Ласкаво просимо на мій сайт</h1>
-                            <p className="paragraph mb-7 mt-6 lg:mb-10 lg:mt-8 reveal-effect">
-                                З 2006 року активно працюю в Інтернеті. З перших робіт упор при створенні сайтів робився на високу якість веб-дизайну та технічного виконання. Для кожного замовника унікальний веб-дизайн, хоча можна вибрати вже готовий. Це мій принцип при створенні сайтів будь-якої цінової категорії. Однією з переваг співпраці зі мною є те, що я готовий надати Вам повний комплекс послуг. Від вибору та покупки доменного імені до розміщення на сервері в Європі. Я завжди сподіваюся на довгострокову співпрацю з нашими клієнтами. Готовий взяти на себе всю роботу, пов'язану з розміщенням сайту в мережі Інтернет та його функціонуванням, пошуковою оптимізацією та просуванням сайту в мережі Інтернет. Звичайно, технічна підтримка та адміністрування сайту
-                            </p>
-                            <div className="flex items-center justify-center gap-8 lg:justify-start reveal-effect">
-                                <Link to="/contacts" className="button shadow-2xl">Будемо на зв'язку!</Link>
+                            <h1 className="heading reveal-effect">{aboutMe[language].welcome}</h1>
+                            <p className="paragraph mb-7 mt-6 lg:mb-10 lg:mt-8 reveal-effect">{aboutMe[language].about}</p>
+                            <div className="flex xs:flex-col sm:flex-row items-center justify-center gap-8 lg:justify-start reveal-effect">
+                                <Link to="/contacts" className="button shadow-2xl">{aboutMe[language].contact}</Link>
                                 <Link to="/gallery"
-                                    className="group flex items-center gap-2 text-sm font-medium text-heading hover:underline lg:text-base"><span>Готові проекти</span>
+                                    className="group flex items-center gap-2 text-sm font-medium text-heading hover:underline lg:text-base"><span>{aboutMe[language].projects}</span>
                                     <TiArrowRight className="h-5 w-5 group-hover:scale-125" />
                                 </Link>
                             </div>

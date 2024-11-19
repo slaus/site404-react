@@ -3,8 +3,12 @@ import hero from '../img/home/hero.webp';
 
 import resume from '../Bantysh-Vyacheslav__cv.pdf';
 import { Clients } from '../components';
+import { useLanguage } from '../context/LanguageContext';
+import { home } from '../lang/languages';
 
 const Home = () => {
+    const { language, switchLanguage } = useLanguage();
+
     const getAllYears = () => {
         const currentYear = new Date().getFullYear();
         return currentYear - 2006;
@@ -21,8 +25,8 @@ const Home = () => {
     };
 
     useEffect(() => {
-        document.title = "Головна сторінка сайту";
-      }, []);
+        document.title = home[language].title;
+      }, [language]);
 
     return (
         <>
@@ -31,19 +35,19 @@ const Home = () => {
                     <div
                         className="flex flex-col-reverse items-center justify-center gap-8 lg:flex-row lg:justify-between lg:gap-32">
                         <div className="reveal-effect">
-                            <h1 className="mb-3 font-darker text-2xl font-bold text-heading">Привіт, я Вячеслав</h1>
-                            <h2 className="heading">Front End розробник</h2>
-                            <p className="paragraph mb-7 mt-5 w-80 sm:mb-10 sm:mt-8 sm:w-[420px]">Я програмую як Front-end розробник понад {getAllYears()} років, проживаю в Одеській області, Україна.</p>
-                            <a href={resume} target="_blank" className="button shadow-2xl">Завантажити резюме</a>
-                            <div className="mt-9 flex justify-center gap-3 sm:justify-start sm:gap-10 reveal-effect">
+                            <h1 className="mb-3 font-darker text-2xl font-bold text-heading">{home[language].hello}</h1>
+                            <h2 className="heading">{home[language].iam}</h2>
+                            <p className="paragraph mb-7 mt-5 w-80 sm:mb-10 sm:mt-8 sm:w-[420px]">{home[language].intro1} {getAllYears()} {home[language].intro2}</p>
+                            <a href={resume} target="_blank" className="button shadow-2xl">{home[language].cv}</a>
+                            <div className="mt-9 xs:flex-col sm:flex-row flex justify-center gap-3 sm:justify-start sm:gap-10 reveal-effect f-full">
                                 <div className="flex items-center justify-center gap-3">
                                     <h3 className="heading !font-inter !font-semibold">{getAllYears()}+</h3><span
-                                        className="paragraph !text-left !text-xs !leading-normal sm:!text-sm">Років<br />Досвіду</span>
+                                        className="paragraph !text-left !text-xs !leading-normal sm:!text-sm">{home[language].years}<br />{home[language].experience}</span>
                                 </div>
                                 <span className="w-[0.5px] bg-disable"></span>
                                 <div className="flex items-center justify-center gap-3">
                                     <h3 className="heading !font-inter !font-semibold">{getAllClients()}+</h3><span
-                                        className="paragraph !text-left !text-xs !leading-normal sm:!text-sm">Готових<br />Проектів</span>
+                                        className="paragraph !text-left !text-xs !leading-normal sm:!text-sm">{home[language].finished}<br />{home[language].projects}</span>
                                 </div>
                             </div>
                         </div>

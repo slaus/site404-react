@@ -5,8 +5,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import axios from "axios";
+import { useLanguage } from '../context/LanguageContext';
+import { testimonials } from '../lang/languages';
 
 const Testimonial = () => {
+    const { language, switchLanguage } = useLanguage();
+
     const pagination = {
         clickable: true,
         renderBullet: function (index, className) {
@@ -20,19 +24,19 @@ const Testimonial = () => {
         const getTestimonialItems = async () => {
             await axios.get(`/db/testimonial.json`)
                 .then((res) => {
-                    // console.log(res.data);
-                    setTestimonialItems(res.data);
+                    // console.log(res.data[language]);
+                    setTestimonialItems(res.data[language]);
                 });
         }
 
         getTestimonialItems();
-    }, []);
+    }, [language]);
 
     return (
         <section id="testimonials" className="text-center lg:text-left mt-auto py-8">
                 <div className="container">
                     <div className="flex flex-col justify-center gap-8 lg:justify-start">
-                        <h1 className="heading reveal-effect">Відгуки</h1>
+                        <h1 className="heading reveal-effect">{testimonials[language].title}</h1>
                         <Swiper
                             spaceBetween={30}
                             centeredSlides={true}
