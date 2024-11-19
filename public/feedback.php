@@ -17,16 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Настройка сервера SMTP
         $mail->isSMTP();
-        $mail->Host = 'mail.site404.in.ua';
+        $mail->Host = '';
         $mail->SMTPAuth = true;
-        $mail->Username = 'info@site404.in.ua';
-        $mail->Password = 'Ctrhtny0@!)(';
+        $mail->Username = '';
+        $mail->Password = '';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Используем SSL
         $mail->Port = 465; // Порт для SSL
 
         // Настройка содержимого письма
         $mail->setFrom('info@site404.in.ua', 'Письмо с сайта Site404');
-        $mail->addAddress('mister.slaus@gmail.com');
+        $mail->addAddress('');
         $mail->addReplyTo($email, $name); // Ответить на отправителя
 
         $mail->isHTML(false); // тело письма не в HTML
