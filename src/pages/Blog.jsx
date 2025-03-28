@@ -9,9 +9,11 @@ import { BlogItem, PaginationNav } from "../components";
 import axios from "axios";
 import { useLanguage } from '../context/LanguageContext';
 import { blog } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 const Blog = ({ setParams }) => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -45,6 +47,8 @@ const Blog = ({ setParams }) => {
     }, []);
 
     return (
+        <>
+        {loading && <Preloader />}
         <section id="blog" className="my-auto">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
@@ -83,6 +87,7 @@ const Blog = ({ setParams }) => {
                 </div>
             </div>
         </section>
+        </>
     );
 };
 

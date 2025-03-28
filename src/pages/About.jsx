@@ -5,9 +5,11 @@ import { Skills, Wrapper } from "../components";
 import { Link } from "react-router-dom";
 import { useLanguage } from '../context/LanguageContext';
 import { aboutMe } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 const About = () => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
 
     useEffect(() => {
         document.title = aboutMe[language].title;
@@ -15,6 +17,7 @@ const About = () => {
 
     return (
         <>
+            {loading && <Preloader />}
             <section id="about" className="text-center lg:text-left mt-4 py-8">
                 <div className="container">
                     <div className="flex flex-col items-center justify-start gap-5 lg:flex-row xl:gap-20">

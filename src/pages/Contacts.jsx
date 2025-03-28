@@ -11,9 +11,11 @@ import {
 import {ContactForm} from "../components";
 import { useLanguage } from '../context/LanguageContext';
 import { contacts } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 const Contacts = () => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
 
     const telVodafon = contacts[language].vodafon;
     const telLife = contacts[language].life;
@@ -46,6 +48,8 @@ const Contacts = () => {
     }, [language]);
 
     return (
+        <>
+        {loading && <Preloader />}
         <section id="contact" className="text-white my-auto">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
@@ -86,6 +90,7 @@ const Contacts = () => {
                 </div>
             </div>
         </section>
+        </>
     );
 };
 

@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Preloader = () => {
+    const { language, switchLanguage } = useLanguage();
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 150);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
-        <div className="preloader">
-            <div className="spinner">
-                <div className="double-bounce1"></div>
-                <div className="double-bounce2"></div>
-            </div>
+        <div className={`preloader ${loading ? 'show' : ''}`}>
+            <div className="loader"></div>
         </div>
     );
 };

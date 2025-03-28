@@ -5,9 +5,11 @@ import resume from '../Bantysh-Vyacheslav__cv.pdf';
 import { Clients } from '../components';
 import { useLanguage } from '../context/LanguageContext';
 import { home } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 const Home = () => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
 
     const getAllYears = () => {
         const currentYear = new Date().getFullYear();
@@ -30,6 +32,7 @@ const Home = () => {
 
     return (
         <>
+            {loading && <Preloader />}
             <section id="home" className="!text-center lg:!text-left my-auto py-8">
                 <div className="container">
                     <div

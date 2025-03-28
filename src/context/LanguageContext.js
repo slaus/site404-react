@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import Preloader from '../components/Preloader';
 
-const LanguageContext = React.createContext();
+const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = React.useState('uk'); // Default language
+    const getDefaultLanguage = () => {
+        const saved = localStorage.getItem('siteLanguage');
+        if (saved) return saved;
+        const browserLang = navigator.language.toLowerCase();
+        return browserLang.includes('uk') ? 'uk' : 'en';
+    };
+
+    const [language, setLanguage] = useState(getDefaultLanguage);
+    const [loading, setLoading] = React.useState(false);
+
+    useEffect(() => {
+        localStorage.setItem('siteLanguage', language);
+        document.documentElement.lang = language;
+        setLoading(true);
+    }, [language, loading]);
 
     const switchLanguage = () => {
-        setLanguage(prevLanguage => (prevLanguage === 'uk' ? 'en' : 'uk'));
+        setLanguage(prev => (prev === 'uk' ? 'en' : 'uk'));
+        setLoading(false);
     };
 
     return (
         <LanguageContext.Provider value={{ language, switchLanguage }}>
+            {loading && <Preloader />}
             {children}
         </LanguageContext.Provider>
     );
 };
 
-export const useLanguage = () => {
-    return React.useContext(LanguageContext);
-};
+export const useLanguage = () => useContext(LanguageContext);

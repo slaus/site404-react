@@ -4,9 +4,11 @@ import { FaQuestion } from "react-icons/fa";
 import axios from "axios";
 import { useLanguage } from '../context/LanguageContext';
 import { calc } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 const Calc = () => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
 
     const [activeItem, setActiveItem] = useState(null);
     const [summ, setSumm] = useState(0);
@@ -73,6 +75,8 @@ const Calc = () => {
     }, [language]);
 
     return (
+        <>
+        {loading && <Preloader />}
         <section id="calc" className="text-center lg:text-left my-auto py-8">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
@@ -126,6 +130,7 @@ const Calc = () => {
                 </div>
             </div>
         </section>
+        </>
     );
 };
 

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { ServiceItem } from '../components';
 import { useLanguage } from '../context/LanguageContext';
 import { services } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 import axios from "axios";
 
 const Services = () => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
     const [serviceItems, setServiceItems] = useState([]);
 
     useEffect(() => {
@@ -26,6 +28,8 @@ const Services = () => {
     }, [language]);
 
     return (
+        <>
+        {loading && <Preloader />}
         <section id="services" className="text-center lg:text-left my-auto py-8">
             <div className="container">
                 <div className="flex flex-col justify-start gap-8">
@@ -39,6 +43,7 @@ const Services = () => {
                 </div>
             </div>
         </section>
+        </>
     );
 };
 

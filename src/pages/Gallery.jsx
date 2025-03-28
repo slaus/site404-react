@@ -4,9 +4,11 @@ import { GalleryItem, PaginationNav, Testimonial } from "../components";
 import axios from "axios";
 import { useLanguage } from '../context/LanguageContext';
 import { gallery } from '../lang/languages';
+import Preloader from '../components/Preloader';
 
 const Gallery = ({ setParams }) => {
     const { language, switchLanguage } = useLanguage();
+    const [loading, setLoading] = React.useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -39,6 +41,7 @@ const Gallery = ({ setParams }) => {
 
     return (
         <>
+            {loading && <Preloader />}
             <section id="projects" className="my-auto">
                 <div className="container">
                     <div className="flex flex-col justify-start gap-8">
